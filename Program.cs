@@ -47,7 +47,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "ใส่เฉพาะ token (ไม่ต้องพิมพ์คำว่า Bearer)"
+        Description = "Insert only token"
     };
 
     c.AddSecurityDefinition("Bearer", scheme);
@@ -58,12 +58,11 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("frontend", p =>
-        p.WithOrigins("https://web-bhvd.onrender.com/")
+        p.WithOrigins("https://web-bhvd.onrender.com")
          .AllowAnyHeader()
          .AllowAnyMethod());
 });
@@ -93,7 +92,7 @@ app.MapPost("/api/auth/register", async (RegisterReq req, AppDb db) =>
     var hash = BCrypt.Net.BCrypt.HashPassword(req.Password, workFactor: 12);
     db.Users.Add(new User { UserName = req.UserName, Password = hash });
     await db.SaveChangesAsync();
-    return Results.Ok("สมัครสมาชิกสำเร็จ");
+    return Results.Ok("Resigter already");
 });
 
 app.MapPost("/api/auth/login", async (LoginReq req, AppDb db, JwtService jwt) =>
@@ -135,5 +134,7 @@ app.MapGet("/api/auth/me", async (AppDb db, HttpContext ctx) =>
     };
     return op;
 });
+
+app.MapGet("/ping", () => "pong");
 
 app.Run();
