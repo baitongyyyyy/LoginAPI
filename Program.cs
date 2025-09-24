@@ -63,7 +63,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("frontend", p =>
-        p.WithOrigins("http://localhost:5173")
+        p.WithOrigins("https://web-bhvd.onrender.com/")
          .AllowAnyHeader()
          .AllowAnyMethod());
 });
