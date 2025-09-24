@@ -93,7 +93,7 @@ app.MapPost("/api/auth/register", async (RegisterReq req, AppDb db) =>
     var hash = BCrypt.Net.BCrypt.HashPassword(req.Password, workFactor: 12);
     db.Users.Add(new User { UserName = req.UserName, Password = hash });
     await db.SaveChangesAsync();
-    return Results.Ok();
+    return Results.Ok("สมัครสมาชิกสำเร็จ");
 });
 
 app.MapPost("/api/auth/login", async (LoginReq req, AppDb db, JwtService jwt) =>
